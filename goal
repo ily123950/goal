@@ -1,9 +1,10 @@
 local isAntigearEnabled = false
 local playerJoinEnabled = true
+local isPlayerLeaveEnabled = true
 
 game.Players.PlayerAdded:Connect(function(player)
     if playerJoinEnabled then
-        local message = "h \n \n \n \n \n \n " .. player.Name .. " joined the server! .1>.!-------"
+        local message = "h \n \n \n \n \n \n -------------" .. player.Name .. " joined the server! .>!"
         game.Players:Chat(message)
         if player.Name == game.Players.LocalPlayer.Name then
             game.Players:Chat("!gearannounce disable")
@@ -11,10 +12,21 @@ game.Players.PlayerAdded:Connect(function(player)
     end
 end)
 
+game.Players.PlayerRemoving:Connect(function(player)
+    if isPlayerLeaveEnabled then
+        local message = "h \n \n \n \n \n \n " .. player.Name .. " left the server! .1>.!-------"
+        game.Players:Chat(message)
+    end
+end)
+
 game.Players.LocalPlayer.Chatted:Connect(function(msg)
     local lowerMsg = msg:lower()
     
-    if lowerMsg == ".disableplrjoin" then
+    if lowerMsg == ".disableplrleave" then
+        isPlayerLeaveEnabled = false
+    elseif lowerMsg == ".enableplrleave" then
+        isPlayerLeaveEnabled = true
+    elseif lowerMsg == ".disableplrjoin" then
         playerJoinEnabled = false
     elseif lowerMsg == ".enableplrjoin" then
         playerJoinEnabled = true
